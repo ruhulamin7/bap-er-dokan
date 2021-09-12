@@ -30,6 +30,8 @@ body {
   grid-template-columns: repeat(3, 1fr);
   /* border: 1px solid black; */
   text-align: center;
+  column-gap: 2.5em;
+  row-gap: 3.5em;
   width: 100%;
   margin: auto;
   align-items: center;
@@ -38,6 +40,8 @@ body {
 .single-product {
   padding: 10px;
   transition: 0.6s;
+  border: 1px solid green;
+  border-radius: 5px;
 }
 .single-product:hover {
   box-shadow: 4px 4px 7px gray;
