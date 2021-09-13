@@ -1,49 +1,83 @@
+// loading all pdoducts
 const loadProducts = () => {
   const url = `https://fakestoreapi.com/products`;
-  fetch('https://raw.githubusercontent.com/marufmarzuq/fakeapi/master/data.json?fbclid=IwAR0mpvRJrk09cr_v4oT_aS2dM_7YzKrQ5-QX8cl3FUOUShf1ldJkOzQcOwE')
+  fetch(url)
     .then((response) => response.json())
     .then((data) => showProducts(data));
 };
 loadProducts();
 
-function productDetails() {
-  console.log('details')
-}
-
-
-// show all product in UI 
+// display all product in UI 
 const showProducts = (products) => {
-  console.log(products)
   const allProducts = products.map((pd) => pd);
   for (const product of allProducts) {
     const image = product.image;
     const div = document.createElement("div");
-    // div.setAttribute('onclick', productDetails)
     div.classList.add("product");
-    div.innerHTML = `<div class="single-product" onclick="productDetails()">
-      <div>
-    <img class="product-image" src=${image}></img>
+    div.innerHTML = `
+      <div class="single-product text-muted">
+        <div>
+          <img class="product-image" src=${image}></img>
+        </div>
+        <h5>${product.title}</h5>
+        <p>Category: ${product.category}</p>
+        <p class="rating text-warning rounded-pill badge bg-secondary"> 
+        <i class="fas fs-6 fa-star"></i> ${product.rating.rate} Rated by ${product.rating.count} Peoples</p>
+        <h4 class="text-success">Price: $ ${product.price}</h4>
+        <button onclick="addToCart(${product.id},${product.price})"       id="addToCart-btn" class="buy-now btn btn-outline-success">Add to cart</button>
+        <button type="button" id="details-btn" class="btn btn-secondary" onclick="productDetails('${product.id}')">Details</button>
       </div>
-      <h3>${product.title}</h3>
-      <p>Category: ${product.category}</p>
-      <p class="text-danger badge fw-bold">Product rating: ${product.rating.rate}</p>
-      <p class="fw-bold bg-dark"><b>Total people rated : ${product.rating.count}</b></p>
-      <h2>Price: $ ${product.price}</h2>
-      <button onclick="addToCart(${product.id},${product.price})" id="addToCart-btn" class="buy-now btn btn-success">add to cart</button>
-      <button id="details-btn" class="btn btn-danger">Details</button></div>
       `;
     document.getElementById("all-products").appendChild(div);
-  }
+  };
 };
+
+// loading single product details data 
+const productDetails = (id) => {
+  const url = `https://fakestoreapi.com/products/${id}`;
+  fetch(url)
+    .then((response) => response.json())
+    .then((data) => showDetails(data));
+};
+
+// show single product details in UI 
+const showDetails = (product) => {
+  const detailsContainer = document.getElementById('details-container');
+  // clearing product details container
+  detailsContainer.textContent = ''
+  div = document.createElement('div')
+  div.classList.add('row');
+  div.innerHTML = `
+    <div class="card mb-3 mx-auto text-muted" style="max-width: 740px;">
+      <div class="row g-0">
+          <div class="col-md-4">
+            <img src="${product.image}" class="img-fluid rounded-start" alt="...">
+          </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h4 class="card-title">${product.title}</h4>
+            <p class="card-text"><b>Product Details:</b> ${product.description}</p>
+            <h4 class="text-success">Price: $ ${product.price}</h4>
+            <button onclick="addToCart(${product.id},${product.price})"       id="addToCart-btn" class="buy-now btn btn-success">Add to cart</button>    
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  detailsContainer.appendChild(div)
+};
+
+// product count and totaal price
 let count = 0;
 const addToCart = (id, price) => {
   count = count + 1;
   updatePrice("price", price);
-  updateTotal()
   updateTaxAndCharge();
+  updateTotal()
   document.getElementById("total-Products").innerText = count;
 };
 
+// get elements inner text and convert to floating point
 const getInputValue = (id) => {
   const element = document.getElementById(id).innerText;
   const converted = parseFloat(element);
@@ -60,7 +94,7 @@ const updatePrice = (id, value) => {
 
 // set innerText function
 const setInnerText = (id, value) => {
-  document.getElementById(id).innerText = Math.round(value);
+  document.getElementById(id).innerText = value.toFixed(2);
 };
 
 // update delivery charge and total Tax
@@ -69,15 +103,15 @@ const updateTaxAndCharge = () => {
   if (priceConverted > 200) {
     setInnerText("delivery-charge", 30);
     setInnerText("total-tax", priceConverted * 0.2);
-  }
+  };
   if (priceConverted > 400) {
     setInnerText("delivery-charge", 50);
     setInnerText("total-tax", priceConverted * 0.3);
-  }
+  };
   if (priceConverted > 500) {
     setInnerText("delivery-charge", 60);
     setInnerText("total-tax", priceConverted * 0.4);
-  }
+  };
 };
 
 //grandTotal update function
