@@ -25,7 +25,7 @@ const showProducts = (products) => {
         <i class="fas fs-6 fa-star"></i> ${product.rating.rate} Rated by ${product.rating.count} Peoples</p>
         <h4 class="text-success">Price: $ ${product.price}</h4>
         <button onclick="addToCart(${product.id},${product.price})"       id="addToCart-btn" class="buy-now btn btn-outline-success">Add to cart</button>
-        <button type="button" id="details-btn" class="btn btn-secondary" onclick="productDetails('${product.id}')">Details</button>
+        <button action="#details-container" type="button" id="details-btn" class="btn btn-secondary" onclick="productDetails('${product.id}')" >Details</button>
       </div>
       `;
     document.getElementById("all-products").appendChild(div);
@@ -64,6 +64,7 @@ const showDetails = (product) => {
       </div>
     </div>
   `;
+  window.location.href = "#details-container";
   detailsContainer.appendChild(div)
 };
 
