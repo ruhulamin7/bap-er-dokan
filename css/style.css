@@ -20,6 +20,7 @@ body {
   transition: 0.6s;
   border: 1px solid rgb(205, 207, 205);
   border-radius: 5px;
+  min-height: 520px;
 }
 .single-product:hover {
   box-shadow: 4px 4px 7px gray;
@@ -59,6 +60,15 @@ body {
   border: 1px solid rgb(216, 213, 213);
   border-radius: 10px;
   margin-top: 15px;
+}
+#details-btn:hover {
+  background-color: rgb(59, 58, 58);
+}
+#buy-now-btn {
+  border: 1px solid gray;
+}
+#buy-now-btn:hover {
+  background-color: rgb(248, 167, 16);
 }
 
 /* responsive for medium devices */
